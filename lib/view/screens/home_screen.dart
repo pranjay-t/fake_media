@@ -1,7 +1,7 @@
 import 'package:fake_media/common/error_text.dart';
 import 'package:fake_media/common/loader.dart';
 import 'package:fake_media/controllers/post_controller.dart';
-import 'package:fake_media/view/screens/add_post_dialog.dart';
+import 'package:fake_media/view/widgets/add_post_dialog.dart';
 import 'package:fake_media/view/screens/post_details_screen.dart';
 import 'package:fake_media/view/widgets/post_card.dart';
 import 'package:fake_media/controllers/user_controller.dart';
