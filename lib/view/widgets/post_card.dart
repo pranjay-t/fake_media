@@ -16,7 +16,6 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // int id = int.parse(post.userId);
 
     if (!userController.users.containsKey(post.userId) &&
         !userController.userErrors.containsKey(post.userId)) {

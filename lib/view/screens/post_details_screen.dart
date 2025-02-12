@@ -9,7 +9,9 @@ import 'package:fake_media/response/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// Screen that displays the details of a specific post, including its content and associated comments.
 class PostDetailsScreen extends StatefulWidget {
+  // Constructor for [PostDetailsScreen].
   const PostDetailsScreen({super.key});
 
   @override
@@ -17,12 +19,18 @@ class PostDetailsScreen extends StatefulWidget {
 }
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
+  // Controller for managing post-related data.
   final PostController postController = Get.put(PostController());
+
+  // Controller for managing user-related data.
   final UserController userController = Get.put(UserController());
+
+  // The ID of the post being displayed.
   late String postId;
 
   @override
   void initState() {
+    // Initialize the post ID from the controller and fetch post details and comments.
     postId = postController.postId.value!;
     super.initState();
     postController.fetchPostById(postId);
@@ -36,12 +44,16 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         title: const Text('Post Detail Screen'),
       ),
       body: Obx(() {
+        // Display a loading indicator while fetching data.
         if (postController.requestStatus.value == Status.loading) {
           return const Loader();
-        } else if (postController.requestStatus.value == Status.error) {
+        } 
+        // Show an error message if there is an issue fetching data.
+        else if (postController.requestStatus.value == Status.error) {
           return ErrorText(error: postController.errorMessage.value);
         }
 
+        // Retrieve the post details using the post ID.
         final PostModel? post = postController.postById[postId];
         if (post == null) {
           return const Loader();
@@ -51,7 +63,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Display the post details.
                 PostCard(post: post, userController: userController),
+                
+                // Section title for comments.
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Text(
@@ -62,6 +77,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                     ),
                   ),
                 ),
+                
+                // Display the list of comments related to the post.
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -69,7 +86,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   itemCount: postController.comments.length,
                   itemBuilder: (BuildContext context, int index) {
                     final comment = postController.comments[index];
-                    return CommentCard(name: comment.name,content: comment.content,);
+                    return CommentCard(
+                      name: comment.name,
+                      content: comment.content,
+                    );
                   },
                 ),
               ],
